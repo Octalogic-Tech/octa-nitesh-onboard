@@ -1,39 +1,22 @@
-version: '3.5'
-
+version: '3'
 services:
-  db:
+  postgres:
     image: postgres
-    restart: always
     environment:
-      - POSTGRES_PASSWORD=1234
-    container_name: postgres
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      POSTGRES_DB: vehicle-management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
     ports:
-      - '5432:5432'
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nest-docker-postgres
-    environment:
-      - PORT=3000
+      - "5432:5432"
+  nestjs-app:
+    build: .
     ports:
-      - '3000:3000'
+      - "5050:5050"
     depends_on:
-      - db
-    volumes:
-      - ./src:/app/src
-
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    container_name: nest-pgadmin4
+      - postgres
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=1234
-    ports:
-      - '5050:80'
-    depends_on:
-      - db
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: mysecretpassword
+      DB_NAME: postgres
