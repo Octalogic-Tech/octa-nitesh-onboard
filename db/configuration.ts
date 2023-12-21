@@ -6,4 +6,5 @@ export default registerAs('database', () => ({
   username: process.env.PGUSER || 'postgres',
   password: String(process.env.PGPASSWORD) || '1234',
   database: process.env.PGDATABASE || 'vehicle-management',
+  ssl: process.env.NODE_ENV === 'local',
 }));
