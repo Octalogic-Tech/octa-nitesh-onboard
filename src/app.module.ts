@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import {dataSourceOptions} from 'db/data-source';
 import { ConfigModule } from '@nestjs/config';
-import configuration from 'db/configuration';
 
 
 @Module({
@@ -13,9 +12,8 @@ import configuration from 'db/configuration';
     TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration], 
-    }),
+      isGlobal: true
+    })
   ],
 
   controllers: [AppController],
