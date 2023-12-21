@@ -15,7 +15,7 @@ export const dataSourceOptions: DataSourceOptions = {
   synchronize: false,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
-  ssl: { rejectUnauthorized: false },
+  ssl: process.env.NODE_ENV === 'production',
   extra: {
     ssl: {
       rejectUnauthorized: false,
