@@ -2,7 +2,9 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { Booking } from '../../entities/booking.entity';
-import { ValidationPipe } from '../validation/validation.pipe';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('bookings')
 
 @Controller('bookings')
 export class BookingController {
