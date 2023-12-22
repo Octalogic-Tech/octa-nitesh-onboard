@@ -10,25 +10,42 @@ export class BookingService {
     @InjectRepository(Booking)
     private readonly bookingRepository: Repository<Booking>,
   ) {}
+    
+  async findAll(): Promise<Booking[]> {
+    return this.bookingRepository.find({ relations: ['vehicle'] });
+  }
 
-//   async findAll(): Promise<Booking[]> {
-//     return this.bookingRepository.find();
-//   }
+  async findById(id: any): Promise<Booking | undefined> {
+    return this.bookingRepository.findOne(id);
+  }
 
-//   async findById(id: number): Promise<Booking | undefined> {
-//     return this.bookingRepository.findOne(id);
-//   }
+  async create(booking: Booking): Promise<Booking> {
+    try {
+      console.log('+++++++++++++++++++++++++=', booking);
 
-//   async create(booking: Booking): Promise<Booking> {
-//     return this.bookingRepository.save(booking);
-//   }
+        const newBooking = new Booking();
+        newBooking.startDate = booking.startDate;
+        newBooking.endDate = booking.endDate;
+        
+        newBooking.vehicleId = booking.vehicleId;
 
-//   async update(id: number, booking: Booking): Promise<Booking | undefined> {
-//     await this.bookingRepository.update(id, booking);
-//     // return this.bookingRepository.findOne(id);
-//   }
 
-//   async remove(id: number): Promise<void> {
-//     await this.bookingRepository.delete(id);
-//   }
+        const result = await this.bookingRepository.save(newBooking);
+        console.log('Booking saved successfully:', result);
+        return result;
+    } catch (error) {
+        console.error('Error saving booking:', error);
+        throw error; // Rethrow the error or handle it appropriately
+    }
+}
+
+
+  async update(id: any, booking: Booking): Promise<Booking | undefined> {
+    await this.bookingRepository.update(id, booking);
+    return this.bookingRepository.findOne(id);
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.bookingRepository.delete(id);
+  }
 }

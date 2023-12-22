@@ -11,6 +11,7 @@ import { VehicleController } from './vehicle/vehicle.controller';
 import { BookingController } from './booking/booking.controller';
 import { VehicleService } from './vehicle/vehicle.service';
 import { BookingService } from './booking/booking.service';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -20,9 +21,10 @@ import { BookingService } from './booking/booking.service';
       isGlobal: true
     }),
     TypeOrmModule.forFeature([Vehicle, Booking])
+    
   ],
 
-  controllers: [AppController,VehicleController, BookingController],
+  controllers: [AppController,VehicleController, BookingController,HealthController],
   providers: [AppService,VehicleService, BookingService],
 })
 export class AppModule {}
