@@ -2,7 +2,9 @@
 import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { Vehicle } from '../../entities/vehicle.entity';
-import { ValidationPipe } from '../validation/validation.pipe';
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('vehicles')
 @Controller('vehicles')
 export class VehicleController {
   constructor(private readonly vehicleService: VehicleService) {}
