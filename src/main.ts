@@ -10,7 +10,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const options = new DocumentBuilder()
-    .setTitle('Your API Title')
+    .setTitle('Vehicle Management')
     .setDescription('Your API Description')
     .setVersion('1.0')
     .addTag('nestjs-swagger-example')
