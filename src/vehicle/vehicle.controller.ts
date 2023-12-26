@@ -1,5 +1,13 @@
 // vehicle.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { VehicleService } from './vehicle.service';
 import { Vehicle } from '../../entities/vehicle.entity';
 import { ApiTags } from '@nestjs/swagger';
@@ -25,7 +33,10 @@ export class VehicleController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() vehicle: Vehicle): Promise<Vehicle | undefined> {
+  update(
+    @Param('id') id: string,
+    @Body() vehicle: Vehicle,
+  ): Promise<Vehicle | undefined> {
     return this.vehicleService.update(+id, vehicle);
   }
 

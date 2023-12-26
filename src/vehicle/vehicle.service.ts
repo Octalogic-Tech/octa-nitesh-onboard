@@ -19,13 +19,15 @@ export class VehicleService {
     const today = new Date();
     const formattedToday = format(today, 'yyyy-MM-dd');
 
-    const bookedVehicleIds = (await this.bookingRepository.find()).map(booking => booking.vehicleId);
+    const bookedVehicleIds = (await this.bookingRepository.find()).map(
+      (booking) => booking.vehicleId,
+    );
     return this.vehicleRepository.find({
       where: {
         id: Not(bookedVehicleIds as any),
         bookings: {
-          endDate: MoreThanOrEqual(formattedToday), 
-          startDate: LessThanOrEqual(formattedToday), 
+          endDate: MoreThanOrEqual(formattedToday),
+          startDate: LessThanOrEqual(formattedToday),
         },
       },
       join: {
@@ -37,7 +39,7 @@ export class VehicleService {
     });
   }
 
-  async findById(id:any): Promise<Vehicle | undefined> {
+  async findById(id: any): Promise<Vehicle | undefined> {
     return this.vehicleRepository.findOne(id);
   }
 

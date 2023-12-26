@@ -8,7 +8,9 @@ import { validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private usersRepository: Repository<User>,) {}
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const newUser = this.usersRepository.create(createUserDto);
@@ -26,7 +28,7 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    return this.usersRepository.findOneBy({id})
+    return this.usersRepository.findOneBy({ id });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

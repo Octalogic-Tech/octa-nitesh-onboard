@@ -10,7 +10,7 @@ export class BookingService {
     @InjectRepository(Booking)
     private readonly bookingRepository: Repository<Booking>,
   ) {}
-    
+
   async findAll(): Promise<Booking[]> {
     return this.bookingRepository.find({ relations: ['vehicle'] });
   }
@@ -23,22 +23,20 @@ export class BookingService {
     try {
       console.log('+++++++++++++++++++++++++=', booking);
 
-        const newBooking = new Booking();
-        newBooking.startDate = booking.startDate;
-        newBooking.endDate = booking.endDate;
-        
-        newBooking.vehicleId = booking.vehicleId;
+      const newBooking = new Booking();
+      newBooking.startDate = booking.startDate;
+      newBooking.endDate = booking.endDate;
 
+      newBooking.vehicleId = booking.vehicleId;
 
-        const result = await this.bookingRepository.save(newBooking);
-        console.log('Booking saved successfully:', result);
-        return result;
+      const result = await this.bookingRepository.save(newBooking);
+      console.log('Booking saved successfully:', result);
+      return result;
     } catch (error) {
-        console.error('Error saving booking:', error);
-        throw error; // Rethrow the error or handle it appropriately
+      console.error('Error saving booking:', error);
+      throw error; // Rethrow the error or handle it appropriately
     }
-}
-
+  }
 
   async update(id: any, booking: Booking): Promise<Booking | undefined> {
     await this.bookingRepository.update(id, booking);

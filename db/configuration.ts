@@ -5,5 +5,5 @@ export default registerAs('database', () => ({
   port: parseInt(process.env.PGPORT, 10),
   username: process.env.PGUSER,
   password: String(process.env.PGPASSWORD),
-  database: process.env.PGDATABASE
+  database: process.env.PGDATABASE,
 }));

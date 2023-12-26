@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import {dataSourceOptions} from 'db/data-source';
+import { dataSourceOptions } from 'db/data-source';
 import { ConfigModule } from '@nestjs/config';
 import { Vehicle } from '../entities/vehicle.entity';
 import { Booking } from '../entities/booking.entity';
@@ -18,13 +18,17 @@ import { HealthController } from './health/health.controller';
     TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
-    TypeOrmModule.forFeature([Vehicle, Booking])
-    
+    TypeOrmModule.forFeature([Vehicle, Booking]),
   ],
 
-  controllers: [AppController,VehicleController, BookingController,HealthController],
-  providers: [AppService,VehicleService, BookingService],
+  controllers: [
+    AppController,
+    VehicleController,
+    BookingController,
+    HealthController,
+  ],
+  providers: [AppService, VehicleService, BookingService],
 })
 export class AppModule {}
