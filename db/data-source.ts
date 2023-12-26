@@ -13,10 +13,10 @@ export const dataSourceOptions: DataSourceOptions = {
   synchronize: false,
   entities: ['dist/**/*.entity.js'],
   migrations: ['dist/db/migrations/*.js'],
-  // ssl: { rejectUnauthorized: false },
-  // extra: {
-  //   ssl: { rejectUnauthorized: false },
-  // }
+  ssl: { rejectUnauthorized: false },
+  extra: {
+    ssl: { rejectUnauthorized: false },
+  }
 };
 
 
