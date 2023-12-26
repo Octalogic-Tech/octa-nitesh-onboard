@@ -5,20 +5,24 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import {dataSourceOptions} from 'db/data-source';
 import { ConfigModule } from '@nestjs/config';
-import configuration from 'db/configuration';
-
+import { Vehicle } from '../entities/vehicle.entity';
+import { Booking } from '../entities/booking.entity';
+import { VehicleController } from './vehicle/vehicle.controller';
+import { BookingController } from './booking/booking.controller';
+import { VehicleService } from './vehicle/vehicle.service';
+import { BookingService } from './booking/booking.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration], 
+      isGlobal: true
     }),
+    TypeOrmModule.forFeature([Vehicle, Booking])
   ],
 
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController,VehicleController, BookingController],
+  providers: [AppService,VehicleService, BookingService],
 })
 export class AppModule {}
