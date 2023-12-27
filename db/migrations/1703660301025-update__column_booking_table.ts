@@ -7,6 +7,6 @@ export class UpdateColumnBookingTable1703660301025 implements MigrationInterface
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE UNIQUE INDEX "IDX_UNIQUE_USER" ON "booking" ("userId")`);
+        // await queryRunner.query(`ALTER TABLE "booking" DROP COLUMN "vehicleId"`);
     }
 }

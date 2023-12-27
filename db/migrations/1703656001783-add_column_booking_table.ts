@@ -20,10 +20,10 @@ export class AddColumnBookingTable1703656001783 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropForeignKey('booking', 'FK_USER_BOOKING');
+        // await queryRunner.dropForeignKey('booking', 'FK_USER_BOOKING');
 
         await queryRunner.dropColumns('booking', ['userId', 'createdAt', 'updatedAt']);
 
-        await queryRunner.dropIndex('booking', 'IDX_UNIQUE_USER');
+        // await queryRunner.dropIndex('booking', 'IDX_UNIQUE_USER');
     }
 }

@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
-import { User } from './user.entity';
+// vehicle.entity.ts
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
 import { Booking } from './booking.entity';
 import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
 
@@ -33,9 +33,6 @@ export class Vehicle {
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
-
-  // @ManyToOne(() => User, (user) => user.vehicles)
-  // owner: User;
 
   @OneToMany(() => Booking, (booking) => booking.vehicle)
   bookings: Booking[];

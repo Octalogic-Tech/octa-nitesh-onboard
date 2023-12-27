@@ -20,7 +20,7 @@ export class VehicleService {
     const formattedToday = format(today, 'yyyy-MM-dd');
 
     const bookedVehicleIds = (await this.bookingRepository.find()).map(
-      (booking) => booking.vehicleId,
+      (booking) => booking.vehicle,
     );
     return this.vehicleRepository.find({
       where: {
