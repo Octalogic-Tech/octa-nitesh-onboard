@@ -18,10 +18,10 @@ export const dataSourceOptions: DataSourceOptions = {
   logger: 'debug',
   entities: [Vehicle, Booking, User],
   migrations: ['dist/db/migrations/*.js'],
-  ssl: { rejectUnauthorized: false },
-  extra: {
-    ssl: { rejectUnauthorized: false },
-  },
+  // ssl: { rejectUnauthorized: false },
+  // extra: {
+  //   ssl: { rejectUnauthorized: false },
+  // },
 };
 
 const dataSource = new DataSource(dataSourceOptions);
