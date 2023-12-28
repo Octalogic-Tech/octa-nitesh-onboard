@@ -38,28 +38,23 @@ export class BookingService {
   
       const findOptions: FindManyOptions<Booking> = {
         where: where,
-        relations: ["vehicle", "user"], // Add "user" relation if not already included
-        select: ["id", "startDate", "endDate"],
+        relations: ["vehicle", "user"], 
+        select: {
+          id: true,
+          startDate:true,
+          endDate:true,
+          user: {
+            lastName: true,
+            firstName: true
+          },
+          vehicle:{
+            brand:true,
+            model:true
+          }
+       } 
       };
-  
       const bookings: Booking[] = await this.bookingRepository.find(findOptions);
-  
-      // Map the result to the desired format
-      const formattedBookings = bookings.map(booking => ({
-        id: booking.id,
-        startDate: booking.startDate,
-        endDate: booking.endDate,
-        vehicle: {
-          brand: booking.vehicle.brand,
-          model: booking.vehicle.model,
-        },
-        user: {
-          firstName: booking.user.firstName,
-          lastName: booking.user.lastName,
-        },
-      }));
-  
-      return formattedBookings;
+      return bookings;
     } catch (error) {
       console.error('Error fetching bookings:', error);
       throw new Error('An error occurred while fetching bookings.');
