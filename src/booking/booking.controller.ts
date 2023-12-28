@@ -31,61 +31,61 @@ export class BookingController {
     return this.bookingService.findAll();
   }
 
-  @Get(':id')
-  @ApiOperation({
-    summary: 'Get booking by ID',
-    description: 'Returns a booking by its ID',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Successful response',
-    type: Booking,
-  })
-  @ApiResponse({ status: 404, description: 'Booking not found' })
-  findById(@Param('id') id: string): Promise<Booking | undefined> {
-    return this.bookingService.findById(+id);
-  }
+  // @Get(':id')
+  // @ApiOperation({
+  //   summary: 'Get booking by ID',
+  //   description: 'Returns a booking by its ID',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Successful response',
+  //   type: Booking,
+  // })
+  // @ApiResponse({ status: 404, description: 'Booking not found' })
+  // findById(@Param('id') id: string): Promise<Booking | undefined> {
+  //   return this.bookingService.findById(+id);
+  // }
 
-  @Post()
-  @ApiOperation({
-    summary: 'Create a new booking',
-    description: 'Creates a new booking',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Booking created successfully',
-    type: Booking,
-  })
-  create(@Body() booking: Booking): Promise<Booking> {
-    return this.bookingService.create(booking);
-  }
+  // @Post()
+  // @ApiOperation({
+  //   summary: 'Create a new booking',
+  //   description: 'Creates a new booking',
+  // })
+  // @ApiResponse({
+  //   status: 201,
+  //   description: 'Booking created successfully',
+  //   type: Booking,
+  // })
+  // create(@Body() booking: Booking): Promise<Booking> {
+  //   return this.bookingService.create(booking);
+  // }
 
-  @Put(':id')
-  @ApiOperation({
-    summary: 'Update a booking by ID',
-    description: 'Updates a booking by its ID',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Successful response',
-    type: Booking,
-  })
-  @ApiResponse({ status: 404, description: 'Booking not found' })
-  update(
-    @Param('id') id: string,
-    @Body() booking: Booking,
-  ): Promise<Booking | undefined> {
-    return this.bookingService.update(+id, booking);
-  }
+  // @Put(':id')
+  // @ApiOperation({
+  //   summary: 'Update a booking by ID',
+  //   description: 'Updates a booking by its ID',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Successful response',
+  //   type: Booking,
+  // })
+  // @ApiResponse({ status: 404, description: 'Booking not found' })
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() booking: Booking,
+  // ): Promise<Booking | undefined> {
+  //   return this.bookingService.update(+id, booking);
+  // }
 
-  @Delete(':id')
-  @ApiOperation({
-    summary: 'Delete a booking by ID',
-    description: 'Deletes a booking by its ID',
-  })
-  @ApiResponse({ status: 204, description: 'Booking deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Booking not found' })
-  remove(@Param('id') id: string): Promise<void> {
-    return this.bookingService.remove(+id);
-  }
+  // @Delete(':id')
+  // @ApiOperation({
+  //   summary: 'Delete a booking by ID',
+  //   description: 'Deletes a booking by its ID',
+  // })
+  // @ApiResponse({ status: 204, description: 'Booking deleted successfully' })
+  // @ApiResponse({ status: 404, description: 'Booking not found' })
+  // remove(@Param('id') id: string): Promise<void> {
+  //   return this.bookingService.remove(+id);
+  // }
 }
