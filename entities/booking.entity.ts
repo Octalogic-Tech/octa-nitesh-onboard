@@ -11,6 +11,7 @@ import {
 import { Vehicle } from './vehicle.entity';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from './user.entity';
 
 @Entity()
 export class Booking {
@@ -33,6 +34,10 @@ export class Booking {
   @ManyToOne(() => Vehicle, (vehicle) => vehicle.bookings, { nullable: false })
   @JoinColumn({ name: 'vehicleId' })
   vehicle: Vehicle;
+
+  @ManyToOne(() => User, (user) => user.bookings, { nullable: false })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
   @Column({ nullable: false })
   @ApiProperty()

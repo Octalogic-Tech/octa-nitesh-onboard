@@ -2,12 +2,11 @@ import {
   Controller,
   Get,
   Query,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { Booking } from '../../entities/booking.entity';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
-import { Vehicle } from 'entities/vehicle.entity';
+import { User } from 'entities/user.entity';
 
 @ApiTags('bookings')
 @Controller('bookings')
@@ -29,6 +28,15 @@ export class BookingController {
   }
 
   @Get('filter')
+  @ApiResponse({
+    status: 200,
+    description: 'Successful response',
+    type: [User],
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Booking not found',
+  })
   getBookings(
     @Query('startDate') startDate?: Date,
     @Query('endDate') endDate?: Date,

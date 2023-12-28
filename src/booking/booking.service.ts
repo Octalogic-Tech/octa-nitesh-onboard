@@ -1,10 +1,8 @@
-// booking.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Booking } from '../../entities/booking.entity';
-import { FindManyOptions } from 'typeorm';
-import { Vehicle } from 'entities/vehicle.entity';
+import { FindManyOptions, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
 
 @Injectable()
 export class BookingService {
@@ -17,38 +15,58 @@ export class BookingService {
     return this.bookingRepository.find({ relations: ['vehicle'] });
   }
 
-  async getBookings(filter: { startDate?: Date; endDate?: Date; userId?: number; vehicle:number }): Promise<Booking[]> {
+  async getBookings(filter: { startDate?: Date; endDate?: Date; userId?: number; vehicle: number }): Promise<any[]> {
     try {
       const where: any = {};
-      console.log('+++++++++++++__________++++++++++',filter.vehicle)
-      
+  
       if (filter.startDate) {
         where.startDate = filter.startDate;
+        where.startDate = MoreThanOrEqual(filter.startDate);
       }
   
       if (filter.endDate) {
-        where.endDate = filter.endDate;
+        where.endDate = LessThanOrEqual(filter.endDate);
       }
   
       if (filter.userId) {
         where.userId = filter.userId;
       }
-
+  
       if (filter.vehicle) {
         where.vehicleId = filter.vehicle;
       }
-
-    const findOptions: FindManyOptions<Booking> = {
-      where: where,
-      relations: ["vehicle"],
-    };
-      
-      return await this.bookingRepository.find(findOptions);
+  
+      const findOptions: FindManyOptions<Booking> = {
+        where: where,
+        relations: ["vehicle", "user"], // Add "user" relation if not already included
+        select: ["id", "startDate", "endDate"],
+      };
+  
+      const bookings: Booking[] = await this.bookingRepository.find(findOptions);
+  
+      // Map the result to the desired format
+      const formattedBookings = bookings.map(booking => ({
+        id: booking.id,
+        startDate: booking.startDate,
+        endDate: booking.endDate,
+        vehicle: {
+          brand: booking.vehicle.brand,
+          model: booking.vehicle.model,
+        },
+        user: {
+          firstName: booking.user.firstName,
+          lastName: booking.user.lastName,
+        },
+      }));
+  
+      return formattedBookings;
     } catch (error) {
       console.error('Error fetching bookings:', error);
       throw new Error('An error occurred while fetching bookings.');
     }
   }
+  
+  
   
 
   // async findById(id: any): Promise<Booking | undefined> {

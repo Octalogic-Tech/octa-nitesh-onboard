@@ -5,7 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany
 } from 'typeorm';
+import { Booking } from './booking.entity';
 
 @Entity()
 @Unique(['username'])
@@ -35,4 +37,7 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToMany(() => Booking, (booking) => booking.user)
+  bookings: Booking[];
 }
