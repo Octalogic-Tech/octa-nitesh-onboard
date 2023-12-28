@@ -1,16 +1,13 @@
-// booking.controller.ts
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Param,
-  Put,
-  Delete,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { Booking } from '../../entities/booking.entity';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import { Vehicle } from 'entities/vehicle.entity';
 
 @ApiTags('bookings')
 @Controller('bookings')
@@ -31,21 +28,17 @@ export class BookingController {
     return this.bookingService.findAll();
   }
 
-  // @Get(':id')
-  // @ApiOperation({
-  //   summary: 'Get booking by ID',
-  //   description: 'Returns a booking by its ID',
-  // })
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'Successful response',
-  //   type: Booking,
-  // })
-  // @ApiResponse({ status: 404, description: 'Booking not found' })
-  // findById(@Param('id') id: string): Promise<Booking | undefined> {
-  //   return this.bookingService.findById(+id);
-  // }
+  @Get('filter')
+  getBookings(
+    @Query('startDate') startDate?: Date,
+    @Query('endDate') endDate?: Date,
+    @Query('userId') userId?: number,
+    @Query('vehicle') vehicle?: number
+  ): Promise<Booking[]> {
+    return this.bookingService.getBookings({ startDate, endDate, userId, vehicle});
+  }
 
+  // Uncomment and adjust the following routes if needed
   // @Post()
   // @ApiOperation({
   //   summary: 'Create a new booking',
