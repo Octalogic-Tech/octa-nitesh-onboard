@@ -1,4 +1,3 @@
-// vehicle.entity.ts
 import {
   Entity,
   Column,
