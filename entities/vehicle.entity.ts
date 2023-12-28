@@ -1,5 +1,13 @@
 // vehicle.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Unique,
+} from 'typeorm';
 import { Booking } from './booking.entity';
 import { IsNotEmpty, IsString, IsInt, Min, Max } from 'class-validator';
 
@@ -25,13 +33,17 @@ export class Vehicle {
   @Max(new Date().getFullYear())
   year: number;
 
-  @Column({ type: 'int', default: 5 }) 
+  @Column({ type: 'int', default: 5 })
   quantity: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   @OneToMany(() => Booking, (booking) => booking.vehicle)

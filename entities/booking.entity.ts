@@ -1,7 +1,15 @@
 // booking.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { Vehicle } from './vehicle.entity';
-import { IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -23,7 +31,7 @@ export class Booking {
   endDate: string;
 
   @ManyToOne(() => Vehicle, (vehicle) => vehicle.bookings, { nullable: false })
-  @JoinColumn({ name: 'vehicleId' }) 
+  @JoinColumn({ name: 'vehicleId' })
   vehicle: Vehicle;
 
   @Column({ nullable: false })
@@ -34,7 +42,11 @@ export class Booking {
   @ApiProperty()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   @ApiProperty()
   updatedAt: Date;
 }
