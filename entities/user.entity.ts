@@ -28,6 +28,9 @@ export class User {
   @Column({ type: 'varchar', nullable: false, unique: true })
   email: string;
 
+  @Column({ type: 'varchar', nullable:false})
+  password:string;
+  
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

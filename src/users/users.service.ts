@@ -23,6 +23,10 @@ export class UsersService {
     return this.usersRepository.save(newUser);
   }
 
+  async findByUsername(username: string): Promise<User | undefined> {
+    return await this.usersRepository.findOne({ where: { username } });
+  }
+
   findAll() {
     return this.usersRepository.find();
   }
