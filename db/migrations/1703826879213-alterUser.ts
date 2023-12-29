@@ -11,20 +11,10 @@ export class AlterUser1703826879213 implements MigrationInterface {
               isNullable: true,
             }),
         );
-
-        await queryRunner.addColumn(
-            'user',
-            new TableColumn({
-              name: 'auth',
-              type: 'varchar',
-              isNullable: true,
-            }),
-        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        // await queryRunner.dropColumn('user', 'password');
-        await queryRunner.dropColumn('user', 'auth');
+        await queryRunner.dropColumn('user', 'password');
     }
 
 }

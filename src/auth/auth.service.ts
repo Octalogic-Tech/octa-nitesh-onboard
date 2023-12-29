@@ -1,41 +1,18 @@
-// auth.service.ts
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import * as argon2 from 'argon2';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-  ) {}
-
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.usersService.findByUsername(username);
-    
-    if(user) {
-      const isPasswordValid = await argon2.verify(user.password, password);
-      if (isPasswordValid) {
-        const { password, ...result } = user;
-        return result;
-      }
-    }
-    return null;
-  }
-
+  constructor(private usersService: UsersService) {}
 
   async signup(createUserDto: CreateUserDto) {
-    const existingUser = await this.usersService.findByUsername(createUserDto.username);
-    if (existingUser) {
-      throw new BadRequestException('Username already exists');
-    }
-
     const createdUser = await this.usersService.create(createUserDto);
 
-    const payload = { username: createdUser.username, sub: createdUser.id };
-  
-    return payload;
+    return {
+      username: createdUser.username,
+      sub: createdUser.id,
+    };
   }
-
 }

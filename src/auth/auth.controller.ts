@@ -27,16 +27,6 @@ export class AuthController {
       if (!createUserDto) {
         return { message: 'Body should not be empty' };
       }
-
-      const existingUser = await this.authService.validateUser(
-        createUserDto.username,
-        createUserDto.password,
-      );
-
-      if (existingUser) {
-        return { message: 'User already exists' };
-      }
-
       const result = await this.authService.signup(createUserDto);
 
       return result;
