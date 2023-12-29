@@ -1,6 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/user.entity';
 import { Repository } from 'typeorm';
@@ -9,56 +8,61 @@ import { validate } from 'class-validator';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const newUser = this.usersRepository.create(createUserDto);
+    return await this.usersRepository.manager.transaction(async (transactionalEntityManager) => {
+      const newUser = this.usersRepository.create(createUserDto);
 
-    const errors = await validate(newUser);
-    if (errors.length > 0) {
-      throw new BadRequestException({ message: 'Validation failed', errors });
-    }
+      const errors = await validate(newUser);
+      if (errors.length > 0) {
+        throw new BadRequestException({ message: 'Validation failed', errors });
+      }
 
-    return this.usersRepository.save(newUser);
+      return transactionalEntityManager.save(newUser);
+    });
   }
 
   async findByUsername(username: string): Promise<User | undefined> {
+    // console.log(username);
     return await this.usersRepository.findOne({ where: { username } });
   }
 
-  findAll() {
-    return this.usersRepository.find();
-  }
 
-  findOne(id: number) {
-    return this.usersRepository.findOneBy({ id });
-  }
+  // findAll() {
+  //   return this.usersRepository.find();
+  // }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.findOne(id);
+  // findOne(id: number) {
+  //   return this.usersRepository.findOneBy({ id });
+  // }
 
-    if (!user) {
-      throw new BadRequestException({ message: 'User not found' });
-    }
+  // async update(id: number, updateUserDto: UpdateUserDto) {
+  //   const user = await this.findOne(id);
 
-    const updatedUser = this.usersRepository.merge(user, updateUserDto);
+  //   if (!user) {
+  //     throw new BadRequestException({ message: 'User not found' });
+  //   }
 
-    const errors = await validate(updatedUser);
-    if (errors.length > 0) {
-      throw new BadRequestException({ message: 'Validation failed', errors });
-    }
+  //   const updatedUser = this.usersRepository.merge(user, updateUserDto);
 
-    return this.usersRepository.save(updatedUser);
-  }
+  //   const errors = await validate(updatedUser);
+  //   if (errors.length > 0) {
+  //     throw new BadRequestException({ message: 'Validation failed', errors });
+  //   }
 
-  async remove(id: number) {
-    const user = await this.findOne(id);
+  //   return this.usersRepository.save(updatedUser);
+  // }
 
-    if (!user) {
-      throw new BadRequestException({ message: 'User not found' });
-    }
+  // async remove(id: number) {
+  //   const user = await this.findOne(id);
 
-    return this.usersRepository.remove(user);
-  }
+  //   if (!user) {
+  //     throw new BadRequestException({ message: 'User not found' });
+  //   }
+
+  //   return this.usersRepository.remove(user);
+  // }
 }

@@ -16,7 +16,7 @@ export class AuthController {
     summary: 'Users Signup',
     description: 'Returns a User',
   })
-  @ApiBody({ type: CreateUserDto }) 
+  @ApiBody({ type: CreateUserDto })
   @ApiResponse({
     status: 200,
     description: 'Successful response',
@@ -36,10 +36,6 @@ export class AuthController {
       if (existingUser) {
         return { message: 'User already exists' };
       }
-
-      const hashedPassword = await argon2.hash(createUserDto.password);
-
-      createUserDto.password = hashedPassword;
 
       const result = await this.authService.signup(createUserDto);
 

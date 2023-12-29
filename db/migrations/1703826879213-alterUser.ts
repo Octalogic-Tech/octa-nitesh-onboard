@@ -23,7 +23,7 @@ export class AlterUser1703826879213 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropColumn('user', 'password');
+        // await queryRunner.dropColumn('user', 'password');
         await queryRunner.dropColumn('user', 'auth');
     }
 
