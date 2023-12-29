@@ -7,20 +7,23 @@ import { dataSourceOptions } from 'db/data-source';
 import { ConfigModule } from '@nestjs/config';
 import { Vehicle } from '../entities/vehicle.entity';
 import { Booking } from '../entities/booking.entity';
+import { User } from 'entities/user.entity';
 import { VehicleController } from './vehicle/vehicle.controller';
 import { BookingController } from './booking/booking.controller';
 import { VehicleService } from './vehicle/vehicle.service';
 import { BookingService } from './booking/booking.service';
 import { HealthController } from './health/health.controller';
-
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { UsersController } from './users/users.controller';
+import { UsersService } from './users/users.service';
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
-    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forFeature([Vehicle, Booking]),
+    TypeOrmModule.forFeature([Vehicle, Booking, User]),
   ],
 
   controllers: [
@@ -28,7 +31,9 @@ import { HealthController } from './health/health.controller';
     VehicleController,
     BookingController,
     HealthController,
+    AuthController,
+    UsersController
   ],
-  providers: [AppService, VehicleService, BookingService],
+  providers: [AppService, VehicleService, BookingService, AuthService, UsersService],
 })
 export class AppModule {}
