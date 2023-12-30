@@ -1,5 +1,5 @@
 // auth.controller.ts
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from 'entities/user.entity';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -9,7 +9,7 @@ import * as argon2 from 'argon2';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('register')
   @ApiOperation({
@@ -34,4 +34,25 @@ export class AuthController {
       return { message: error.message };
     }
   }
+
+  @Post('login')
+  @ApiOperation({
+    summary: 'Login',
+    description: 'Returns an Access Token',
+  })
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Successful response',
+    type: User
+  })
+  async login(@Body() body: CreateUserDto): Promise<{ token: string }> {
+    try {
+      const token = await this.authService.login(body.username, body.password);
+      return { token };
+    } catch (error) {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
 }
