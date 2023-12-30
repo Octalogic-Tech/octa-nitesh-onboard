@@ -15,10 +15,13 @@ export class BookingService {
     return this.bookingRepository.find({ relations: ['vehicle'] });
   }
 
-  async getBookings(filter: { startDate?: Date; endDate?: Date; userId?: number; vehicle: number }): Promise<any[]> {
+  async getBookings(filter: { startDate?: Date; endDate?: Date; userId?: number; vehicle: number, page: number }): Promise<any[]> {
     try {
       const where: any = {};
-  
+      
+      const pageSize = 30;
+      const skip = (filter.page - 1) * pageSize;
+
       if (filter.startDate) {
         where.startDate = filter.startDate;
         where.startDate = MoreThanOrEqual(filter.startDate);
@@ -37,22 +40,25 @@ export class BookingService {
       }
   
       const findOptions: FindManyOptions<Booking> = {
-        where: where,
-        relations: ["vehicle", "user"], 
+        where,
+        relations: ["vehicle", "user"],
+        skip,
+        take: pageSize,
         select: {
           id: true,
-          startDate:true,
-          endDate:true,
+          startDate: true,
+          endDate: true,
           user: {
             lastName: true,
-            firstName: true
+            firstName: true,
           },
-          vehicle:{
-            brand:true,
-            model:true
-          }
-       } 
+          vehicle: {
+            brand: true,
+            model: true,
+          },
+        },
       };
+      
       const bookings: Booking[] = await this.bookingRepository.find(findOptions);
       return bookings;
     } catch (error) {
