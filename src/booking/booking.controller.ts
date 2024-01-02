@@ -2,11 +2,14 @@ import {
   Controller,
   Get,
   Query,
+  UseGuards,
+  Req
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { Booking } from '../../entities/booking.entity';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { User } from 'entities/user.entity';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('bookings')
 @Controller('bookings')
@@ -26,8 +29,9 @@ export class BookingController {
   findAll(): Promise<Booking[]> {
     return this.bookingService.findAll();
   }
-
+  
   @Get('filter')
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
     description: 'Successful response',
@@ -38,12 +42,19 @@ export class BookingController {
     description: 'Booking not found',
   })
   getBookings(
+    @Req() request: any,
     @Query('startDate') startDate?: Date,
     @Query('endDate') endDate?: Date,
     @Query('userId') userId?: number,
-    @Query('vehicle') vehicle?: number
+    @Query('vehicle') vehicle?: number,
+    @Query('page') page?: number
   ): Promise<Booking[]> {
-    return this.bookingService.getBookings({ startDate, endDate, userId, vehicle});
+    const authenticatedUser = request.user; 
+    console.log('Authenticated User:', authenticatedUser);
+    return this.bookingService.getBookings({
+      startDate, endDate,  userId: authenticatedUser.userId, vehicle,
+      page
+    });
   }
 
   // Uncomment and adjust the following routes if needed

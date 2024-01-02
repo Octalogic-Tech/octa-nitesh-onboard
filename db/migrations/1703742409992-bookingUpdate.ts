@@ -12,7 +12,7 @@ export class BookingUpdate1703742409992 implements MigrationInterface {
       new TableColumn({
         name: 'userId',
         type: 'int',
-        isNullable: false,
+        isNullable: true,
       }),
       new TableColumn({
         name: 'createdAt',
