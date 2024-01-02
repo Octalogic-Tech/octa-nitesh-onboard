@@ -70,35 +70,35 @@ export class BookingService {
   
   
 
-  // async findById(id: any): Promise<Booking | undefined> {
-  //   return this.bookingRepository.findOne(id);
-  // }
+  async findById(id: any): Promise<Booking | undefined> {
+    return this.bookingRepository.findOne(id);
+  }
 
-  // async create(booking: Booking): Promise<Booking> {
-  //   try {
-  //     console.log('+++++++++++++++++++++++++=', booking);
+  async create(booking: Booking): Promise<Booking> {
+    try {
+      console.log('+++++++++++++++++++++++++=', booking);
 
-  //     const newBooking = new Booking();
-  //     newBooking.startDate = booking.startDate;
-  //     newBooking.endDate = booking.endDate;
+      const newBooking = new Booking();
+      newBooking.startDate = booking.startDate;
+      newBooking.endDate = booking.endDate;
 
-  //     newBooking.vehicleId = booking.vehicleId;
+      newBooking.vehicle = booking.vehicle;
 
-  //     const result = await this.bookingRepository.save(newBooking);
-  //     console.log('Booking saved successfully:', result);
-  //     return result;
-  //   } catch (error) {
-  //     console.error('Error saving booking:', error);
-  //     throw error; // Rethrow the error or handle it appropriately
-  //   }
-  // }
+      const result = await this.bookingRepository.save(newBooking);
+      console.log('Booking saved successfully:', result);
+      return result;
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      throw error; 
+    }
+  }
 
-  // async update(id: any, booking: Booking): Promise<Booking | undefined> {
-  //   await this.bookingRepository.update(id, booking);
-  //   return this.bookingRepository.findOne(id);
-  // }
+  async update(id: any, booking: Booking): Promise<Booking | undefined> {
+    await this.bookingRepository.update(id, booking);
+    return this.bookingRepository.findOne(id);
+  }
 
-  // async remove(id: number): Promise<void> {
-  //   await this.bookingRepository.delete(id);
-  // }
+  async remove(id: number): Promise<void> {
+    await this.bookingRepository.delete(id);
+  }
 }
