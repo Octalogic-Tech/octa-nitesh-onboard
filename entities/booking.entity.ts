@@ -31,11 +31,15 @@ export class Booking {
   @ApiProperty()
   endDate: string;
 
-  @ManyToOne(() => Vehicle, (vehicle) => vehicle.bookings, { nullable: false })
+  @ManyToOne(() => Vehicle, (vehicle) => vehicle.bookings, { nullable: false, cascade: ['insert'] })
   @JoinColumn({ name: 'vehicleId' })
   vehicle: Vehicle;
+  
+  @Column({ nullable: false })
+  @ApiProperty()
+  vehicleId: number;
 
-  @ManyToOne(() => User, (user) => user.bookings, { nullable: false })
+  @ManyToOne(() => User, (user) => user.bookings, { nullable: false, cascade: ['insert'] })
   @JoinColumn({ name: 'userId' })
   user: User;
 

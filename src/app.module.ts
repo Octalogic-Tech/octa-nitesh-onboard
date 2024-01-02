@@ -17,11 +17,19 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
+import { JwtModule } from '@nestjs/jwt';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET_KEY, 
+      signOptions: { expiresIn: '3h' },
     }),
     TypeOrmModule.forFeature([Vehicle, Booking, User]),
   ],
@@ -34,6 +42,6 @@ import { UsersService } from './users/users.service';
     AuthController,
     UsersController
   ],
-  providers: [AppService, VehicleService, BookingService, AuthService, UsersService],
+  providers: [ AppService, VehicleService, BookingService, AuthService, UsersService],
 })
 export class AppModule {}

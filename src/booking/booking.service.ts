@@ -67,38 +67,33 @@ export class BookingService {
     }
   }
   
-  
-  
+  async findById(id: any): Promise<Booking | undefined> {
+    return this.bookingRepository.findOne(id);
+  }
 
-  // async findById(id: any): Promise<Booking | undefined> {
-  //   return this.bookingRepository.findOne(id);
-  // }
+  async create(booking: Booking): Promise<Booking> {
+    try {
+      const newBooking = new Booking();
+      newBooking.startDate = booking.startDate;
+      newBooking.endDate = booking.endDate;
 
-  // async create(booking: Booking): Promise<Booking> {
-  //   try {
-  //     console.log('+++++++++++++++++++++++++=', booking);
+      newBooking.vehicle = booking.vehicle;
 
-  //     const newBooking = new Booking();
-  //     newBooking.startDate = booking.startDate;
-  //     newBooking.endDate = booking.endDate;
+      const result = await this.bookingRepository.save(newBooking);
+      console.log('Booking saved successfully:', result);
+      return result;
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      throw error; 
+    }
+  }
 
-  //     newBooking.vehicleId = booking.vehicleId;
+  async update(id: any, booking: Booking): Promise<Booking | undefined> {
+    await this.bookingRepository.update(id, booking);
+    return await this.bookingRepository.findOne({where: {id}});
+  }
 
-  //     const result = await this.bookingRepository.save(newBooking);
-  //     console.log('Booking saved successfully:', result);
-  //     return result;
-  //   } catch (error) {
-  //     console.error('Error saving booking:', error);
-  //     throw error; // Rethrow the error or handle it appropriately
-  //   }
-  // }
-
-  // async update(id: any, booking: Booking): Promise<Booking | undefined> {
-  //   await this.bookingRepository.update(id, booking);
-  //   return this.bookingRepository.findOne(id);
-  // }
-
-  // async remove(id: number): Promise<void> {
-  //   await this.bookingRepository.delete(id);
-  // }
+  async remove(id: number): Promise<void> {
+    await this.bookingRepository.delete(id);
+  }
 }
