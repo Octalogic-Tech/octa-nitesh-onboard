@@ -67,17 +67,12 @@ export class BookingService {
     }
   }
   
-  
-  
-
   async findById(id: any): Promise<Booking | undefined> {
     return this.bookingRepository.findOne(id);
   }
 
   async create(booking: Booking): Promise<Booking> {
     try {
-      console.log('+++++++++++++++++++++++++=', booking);
-
       const newBooking = new Booking();
       newBooking.startDate = booking.startDate;
       newBooking.endDate = booking.endDate;
@@ -95,7 +90,7 @@ export class BookingService {
 
   async update(id: any, booking: Booking): Promise<Booking | undefined> {
     await this.bookingRepository.update(id, booking);
-    return this.bookingRepository.findOne(id);
+    return await this.bookingRepository.findOne({where: {id}});
   }
 
   async remove(id: number): Promise<void> {

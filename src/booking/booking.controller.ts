@@ -65,7 +65,7 @@ export class BookingController {
     });
   }
 
-  @Post()
+  @Post('create-booking')
   @ApiOperation({
     summary: 'Create a new booking',
     description: 'Creates a new booking',
